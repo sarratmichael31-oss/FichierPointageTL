@@ -4,36 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pointage Annuel 2025</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="header-top">
-                <div class="agent-section">
-                    <label>Agent</label>
-                    <input type="text" id="agentName" value="SARRAT M." placeholder="Nom de l'agent">
+            <div class="header-single-row">
+                <div class="controls">
+                    <button id="printBtn" class="btn btn-secondary">Imprimer</button>
+                    <button id="saveBtn" class="btn btn-primary">Sauvegarder</button>
+                    <button id="resetBtn" class="btn btn-danger">Réinitialiser</button>
+                    <button id="showHolidaysBtn" class="btn btn-holidays">🗓️ Voir Fériés <span id="holidaysYearBtn">2025</span></button>
+                    <button id="toggleRqBtn" class="btn btn-holidays">📊 Interface RQ</button>
                 </div>
-                <div class="today-section">
-                    <label>Aujourd'hui</label>
-                    <input type="date" id="todayDate" readonly>
-                </div>
-                <div class="year-section">
-                    <label>ANNÉE</label>
-                    <select id="yearSelect">
-                        <option value="2024">2024</option>
-                        <option value="2025" selected>2025</option>
-                        <option value="2026">2026</option>
-                    </select>
+                
+                <div class="header-fields">
+                    <div class="agent-section">
+                        <label>Agent</label>
+                        <input type="text" id="agentName" value="SARRAT M." placeholder="Nom de l'agent">
+                    </div>
+                    <div class="today-section">
+                        <label>Date du jour</label>
+                        <input type="date" id="todayDate" readonly>
+                    </div>
+                    <div class="year-section">
+                        <label>Année</label>
+                        <select id="yearSelect">
+                            <option value="2024">2024</option>
+                            <option value="2025" selected>2025</option>
+                            <option value="2026">2026</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </header>
-
-        <div class="controls">
-            <button id="printBtn" class="btn btn-secondary">Imprimer</button>
-            <button id="saveBtn" class="btn btn-primary">Sauvegarder</button>
-            <button id="resetBtn" class="btn btn-danger">Réinitialiser</button>
-        </div>
 
         <div class="main-content">
             <div class="left-section">
@@ -57,153 +61,182 @@
 
                 <div class="bottom-section">
                     <div class="statistics-container">
-                    <div class="stat-box solde-box">
-                    <h3>SOLDÉ</h3>
-                    <div class="stat-row">
-                        <select id="soldeType1" class="stat-type-select">
-                        <option value="">--</option>
-                        <option value="C" selected>C</option>
-                        <option value="RP">RP</option>
-                        <option value="RQ">RQ</option>
-                        <option value="VT">VT</option>
-                        <option value="CET">CET</option>
-                        <option value="MA">MA</option>
-                        <option value="Fo">Fo</option>
-                        <option value="G1">G1</option>
-                        <option value="G2">G2</option>
-                        <option value="G3">G3</option>
-                    </select>
-                    <input type="number" id="soldeVal1" class="stat-input" value="0" min="0">
-                </div>
-                <div class="stat-row">
-                    <select id="soldeType2" class="stat-type-select">
-                        <option value="">--</option>
-                        <option value="C">C</option>
-                        <option value="RP">RP</option>
-                        <option value="RQ" selected>RQ</option>
-                        <option value="VT">VT</option>
-                        <option value="CET">CET</option>
-                        <option value="MA">MA</option>
-                        <option value="Fo">Fo</option>
-                        <option value="G1">G1</option>
-                        <option value="G2">G2</option>
-                        <option value="G3">G3</option>
-                    </select>
-                    <input type="number" id="soldeVal2" class="stat-input" value="0" min="0">
-                </div>
-                <div class="stat-row">
-                    <select id="soldeType3" class="stat-type-select">
-                        <option value="">--</option>
-                        <option value="C">C</option>
-                        <option value="RP" selected>RP</option>
-                        <option value="RQ">RQ</option>
-                        <option value="VT">VT</option>
-                        <option value="CET">CET</option>
-                        <option value="MA">MA</option>
-                        <option value="Fo">Fo</option>
-                        <option value="G1">G1</option>
-                        <option value="G2">G2</option>
-                        <option value="G3">G3</option>
-                    </select>
-                    <input type="number" id="soldeVal3" class="stat-input" value="0" min="0">
-                </div>
-                <div class="stat-row">
-                    <select id="soldeType4" class="stat-type-select">
-                        <option value="">--</option>
-                        <option value="C">C</option>
-                        <option value="RP">RP</option>
-                        <option value="RQ">RQ</option>
-                        <option value="VT">VT</option>
-                        <option value="CET" selected>CET</option>
-                        <option value="MA">MA</option>
-                        <option value="Fo">Fo</option>
-                        <option value="G1">G1</option>
-                        <option value="G2">G2</option>
-                        <option value="G3">G3</option>
-                    </select>
-                    <input type="number" id="soldeVal4" class="stat-input" value="0" min="0">
-                </div>
-                <div class="stat-row">
-                    <select id="soldeType5" class="stat-type-select">
-                        <option value="">--</option>
-                        <option value="C">C</option>
-                        <option value="RP">RP</option>
-                        <option value="RQ">RQ</option>
-                        <option value="VT" selected>VT</option>
-                        <option value="CET">CET</option>
-                        <option value="MA">MA</option>
-                        <option value="Fo">Fo</option>
-                        <option value="G1">G1</option>
-                        <option value="G2">G2</option>
-                        <option value="G3">G3</option>
-                    </select>
-                    <input type="number" id="soldeVal5" class="stat-input" value="0" min="0">
-                </div>
-            </div>
-
-            <div class="stat-box pris-box">
-                <h3>PRIS</h3>
-                <div id="prisContent">
-                    <!-- Contenu généré dynamiquement -->
-                </div>
-            </div>
-
-            <div class="stat-box restant-box">
-                <h3>RESTANT</h3>
-                <div id="restantContent">
-                    <!-- Contenu généré dynamiquement -->
-                </div>
-            </div>
-
-            <div class="legend-box">
-                <h3>Légende:</h3>
-                <div class="legend-item"><span class="legend-positive"></span>Compteur en positif</div>
-                <div class="legend-item"><span class="legend-zero"></span>Compteur à 0</div>
-                <div class="legend-item"><span class="legend-negative"></span>Compteur en négatif</div>
-            </div>
-
-            <div class="generation-rq-box">
-                <h3>Génération RQ</h3>
-                <div class="rq-content">
-                    <div class="rq-row">
-                        <span>Date de référence:</span>
-                        <div style="display: flex; gap: 5px; align-items: center;">
-                            <input type="text" id="rqDateReferenceDisplay" class="rq-input" placeholder="JJ/MM/AAAA" style="width: 90px;" maxlength="10" readonly>
-                            <input type="date" id="rqDateReference" class="rq-input-hidden">
-                        </div>
-                    </div>
-                    <div class="rq-row">
-                        <span>Compteur RRQ à cette date:</span>
-                        <input type="number" id="rqCompteurReference" class="rq-input" value="1" min="1" max="24">
-                    </div>
-                    <div class="rq-row">
-                        <span>Compteur RRQ actuel:</span>
-                        <span id="rqCompteur">1</span>
-                    </div>
-                    <div class="rq-row"><span>RQ générés:</span><span id="rqGeneres">0</span></div>
-                    <div class="rq-row"><span>Projection année:</span><span id="rqProjection">0</span></div>
-                </div>
-            </div>
-        </div>
-                </div>
-            </div>
-
-            <div class="holidays-sidebar">
-                <div class="holidays-box">
-                    <h3>Jours Fériés <span id="holidaysYear">2025</span></h3>
-                    <table class="holidays-table">
+                    <div class="stat-box unified-stats-box">
+                    <table class="unified-stats-table">
                         <thead>
                             <tr>
-                                <th>Date</th>
-                                <th>Jour férié</th>
+                                <th>SOLDÉ</th>
+                                <th>PRIS</th>
+                                <th>RESTANT</th>
                             </tr>
                         </thead>
-                        <tbody id="holidaysBody">
-                            <!-- Les jours fériés seront générés dynamiquement -->
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="stat-row">
+                                        <select id="soldeType1" class="stat-type-select">
+                                            <option value="">--</option>
+                                            <option value="C" selected>C</option>
+                                            <option value="RP">RP</option>
+                                            <option value="RQ">RQ</option>
+                                            <option value="VT">VT</option>
+                                            <option value="CET">CET</option>
+                                            <option value="MA">MA</option>
+                                            <option value="Fo">Fo</option>
+                                            <option value="G1">G1</option>
+                                            <option value="G4">G4</option>
+                                            <option value="G8">G8</option>
+                                            <option value="AY">AY</option>
+                                            <option value="X1">X1</option>
+                                            <option value="X2">X2</option>
+                                            <option value="X3">X3</option>
+                                        </select>
+                                        <input type="number" id="soldeVal1" class="stat-input" value="0" min="0">
+                                    </div>
+                                    <div class="stat-row">
+                                        <select id="soldeType2" class="stat-type-select">
+                                            <option value="">--</option>
+                                            <option value="C">C</option>
+                                            <option value="RP">RP</option>
+                                            <option value="RQ" selected>RQ</option>
+                                            <option value="VT">VT</option>
+                                            <option value="CET">CET</option>
+                                            <option value="MA">MA</option>
+                                            <option value="Fo">Fo</option>
+                                            <option value="G1">G1</option>
+                                            <option value="G4">G4</option>
+                                            <option value="G8">G8</option>
+                                            <option value="AY">AY</option>
+                                            <option value="X1">X1</option>
+                                            <option value="X2">X2</option>
+                                            <option value="X3">X3</option>
+                                        </select>
+                                        <input type="number" id="soldeVal2" class="stat-input" value="0" min="0">
+                                    </div>
+                                    <div class="stat-row">
+                                        <select id="soldeType3" class="stat-type-select">
+                                            <option value="">--</option>
+                                            <option value="C">C</option>
+                                            <option value="RP" selected>RP</option>
+                                            <option value="RQ">RQ</option>
+                                            <option value="VT">VT</option>
+                                            <option value="CET">CET</option>
+                                            <option value="MA">MA</option>
+                                            <option value="Fo">Fo</option>
+                                            <option value="G1">G1</option>
+                                            <option value="G4">G4</option>
+                                            <option value="G8">G8</option>
+                                            <option value="X1">X1</option>
+                                            <option value="X2">X2</option>
+                                            <option value="X3">X3</option>
+                                        </select>
+                                        <input type="number" id="soldeVal3" class="stat-input" value="0" min="0">
+                                    </div>
+                                    <div class="stat-row">
+                                        <select id="soldeType4" class="stat-type-select">
+                                            <option value="">--</option>
+                                            <option value="C">C</option>
+                                            <option value="RP">RP</option>
+                                            <option value="RQ">RQ</option>
+                                            <option value="VT">VT</option>
+                                            <option value="CET" selected>CET</option>
+                                            <option value="MA">MA</option>
+                                            <option value="Fo">Fo</option>
+                                            <option value="G1">G1</option>
+                                            <option value="G4">G4</option>
+                                            <option value="G8">G8</option>
+                                            <option value="AY">AY</option>
+                                            <option value="X1">X1</option>
+                                            <option value="X2">X2</option>
+                                            <option value="X3">X3</option>
+                                        </select>
+                                        <input type="number" id="soldeVal4" class="stat-input" value="0" min="0">
+                                    </div>
+                                    <div class="stat-row">
+                                        <select id="soldeType5" class="stat-type-select">
+                                            <option value="">--</option>
+                                            <option value="C">C</option>
+                                            <option value="RP">RP</option>
+                                            <option value="RQ">RQ</option>
+                                            <option value="VT">VT</option>
+                                            <option value="CET">CET</option>
+                                            <option value="MA">MA</option>
+                                            <option value="Fo">Fo</option>
+                                            <option value="G1">G1</option>
+                                            <option value="G4">G4</option>
+                                            <option value="G8">G8</option>
+                                            <option value="AY">AY</option>
+                                            <option value="X1">X1</option>
+                                            <option value="X2">X2</option>
+                                            <option value="X3">X3</option>
+                                        </select>
+                                        <input type="number" id="soldeVal5" class="stat-input" value="0" min="0">
+                                    </div>
+                                </td>
+                                <td id="prisContent">
+                                    <!-- Contenu généré dynamiquement -->
+                                </td>
+                                <td id="restantContent">
+                                    <!-- Contenu généré dynamiquement -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+
+                <div class="legend-box">
+                    <h3>Statuts Personnalisés</h3>
+                    <table class="colors-table">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Nom du statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="text" id="codeX1" class="custom-code-input" value="X1" maxlength="5"></td>
+                                <td><input type="text" id="labelX1" class="custom-label-input" value="Statut 1" maxlength="30"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" id="codeX2" class="custom-code-input" value="X2" maxlength="5"></td>
+                                <td><input type="text" id="labelX2" class="custom-label-input" value="Statut 2" maxlength="30"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" id="codeX3" class="custom-code-input" value="X3" maxlength="5"></td>
+                                <td><input type="text" id="labelX3" class="custom-label-input" value="Statut 3" maxlength="30"></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
 
+                <div id="generationRqBox" class="generation-rq-box">
+                    <h3>Génération RQ</h3>
+                    <div class="rq-content">
+                        <div class="rq-row">
+                            <span>Date de référence:</span>
+                            <div style="display: flex; gap: 5px; align-items: center;">
+                                <input type="text" id="rqDateReferenceDisplay" class="rq-input" placeholder="JJ/MM/AAAA" style="width: 90px;" maxlength="10" readonly>
+                                <input type="date" id="rqDateReference" class="rq-input-hidden">
+                            </div>
+                        </div>
+                        <div class="rq-row">
+                            <span>Compteur RRQ à cette date:</span>
+                            <input type="number" id="rqCompteurReference" class="rq-input" value="1" min="1" max="24">
+                        </div>
+                        <div class="rq-row">
+                            <span>Compteur RRQ actuel:</span>
+                            <span id="rqCompteur">1</span>
+                        </div>
+                        <div class="rq-row"><span>RQ générés:</span><span id="rqGeneres">0</span></div>
+                        <div class="rq-row"><span>Projection année:</span><span id="rqProjection">0</span></div>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <div class="holidays-sidebar">
                 <div class="colors-box">
                     <h3>Couleurs des Statuts</h3>
                     <table class="colors-table">
@@ -244,8 +277,12 @@
                         <option value="MA">MA (Maladie)</option>
                         <option value="Fo">Fo (Formation)</option>
                         <option value="G1">G1 (Grève 0h59)</option>
-                        <option value="G2">G2 (Grève 4h)</option>
-                        <option value="G3">G3 (Grève 8h)</option>
+                        <option value="G4">G4 (Grève 4h)</option>
+                        <option value="G8">G8 (Grève 8h)</option>
+                        <option value="AY">AY (Chèque Congé Syndical)</option>
+                        <option value="X1" data-custom>X1 (Statut 1)</option>
+                        <option value="X2" data-custom>X2 (Statut 2)</option>
+                        <option value="X3" data-custom>X3 (Statut 3)</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -258,6 +295,25 @@
                     <button type="button" class="btn btn-secondary" id="cancelEditBtn">Annuler</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Modal pour les jours fériés -->
+    <div id="holidaysModal" class="modal">
+        <div class="modal-content" style="max-width: 630px;">
+            <span class="close" id="closeHolidaysModal">&times;</span>
+            <h2 style="text-align: center; color: #000; margin-bottom: 20px; font-size: 28px; font-weight: bold;">Jours Fériés <span id="holidaysYear">2025</span></h2>
+            <table style="width: 100%; border-collapse: collapse; font-size: 22px;">
+                <thead>
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px 7px; border: 2px solid #000; font-weight: bold; font-size: 21px; text-align: center; width: 84px; color: #000;">DATE</th>
+                        <th style="padding: 10px 7px; border: 2px solid #000; font-weight: bold; font-size: 21px; text-align: center; width: 70px; color: #000;">JOUR</th>
+                        <th style="padding: 10px 7px; border: 2px solid #000; font-weight: bold; font-size: 21px; text-align: left; color: #000;">JOUR FÉRIÉ</th>
+                    </tr>
+                </thead>
+                <tbody id="holidaysBody1" style="font-size: 20px;">
+                </tbody>
+            </table>
         </div>
     </div>
 

@@ -7,29 +7,50 @@
 body {
     font-family: 'Calibri', 'Arial', sans-serif;
     background: #f0f0f0;
-    padding: 10px;
+    padding: 0px;
     font-size: 11px;
 }
 
 .container {
     max-width: 100%;
-    margin: 0 auto;
+    margin: 0 !important;
+    margin-left: 220px !important;
     background: white;
-    padding: 10px;
+    padding: 0px 10px 0px 10px !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
 }
 
 /* En-tête */
 header {
-    margin-bottom: 15px;
+    margin-bottom: 0px !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
 }
 
-.header-top {
-    display: grid;
-    grid-template-columns: 200px auto 200px;
-    gap: 20px;
-    align-items: end;
+.header-single-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 10px;
     border: 2px solid #000;
     padding: 10px;
+    background: #f8f9fa;
+    width: 200px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.header-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
 }
 
 .agent-section,
@@ -37,29 +58,35 @@ header {
 .year-section {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .agent-section label,
 .today-section label,
 .year-section label {
     font-weight: bold;
-    font-size: 11px;
+    font-size: 12px;
     margin-bottom: 3px;
+    text-align: center;
 }
 
 .today-section {
     text-align: center;
     justify-self: center;
-    width: fit-content;
+    width: 100%;
+    align-items: center;
 }
 
 .today-section label {
-    background: #FF6B6B;
-    color: white;
-    padding: 5px 10px;
+    background: transparent;
+    color: #000;
+    padding: 0px;
     font-size: 12px;
+    font-weight: bold;
     display: block;
     white-space: nowrap;
+    text-align: center;
+    margin-bottom: 3px;
 }
 
 .today-section input {
@@ -86,6 +113,7 @@ header {
     padding: 5px;
     border: 1px solid #ccc;
     font-size: 11px;
+    text-align: center;
 }
 
 .year-section select {
@@ -96,18 +124,22 @@ header {
 
 /* Contrôles */
 .controls {
-    margin-bottom: 10px;
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
 }
 
 .btn {
-    padding: 8px 16px;
+    padding: 8px 12px;
     border: 1px solid #666;
     background: #e0e0e0;
     cursor: pointer;
     font-size: 11px;
     font-weight: bold;
+    height: fit-content;
+    align-self: stretch;
+    text-align: center;
 }
 
 .btn:hover {
@@ -115,15 +147,15 @@ header {
 }
 
 .btn-primary {
-    background: #4a90e2;
-    color: white;
-    border-color: #2e5f8a;
-}
-
-.btn-secondary {
     background: #48bb78;
     color: white;
     border-color: #2d7a4f;
+}
+
+.btn-secondary {
+    background: #4a90e2;
+    color: white;
+    border-color: #2e5f8a;
 }
 
 .btn-danger {
@@ -139,34 +171,58 @@ header {
 /* Conteneur principal avec calendrier et jours fériés */
 .main-content {
     display: flex;
-    gap: 15px;
+    gap: 10px;
     align-items: flex-start;
+    padding-top: 0px !important;
+    margin-top: 0px !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
 }
 
 .left-section {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 0px;
+    margin-top: 0px !important;
+    padding-top: 0px !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
 }
 
 /* Conteneur pour les tableaux statistiques sous le calendrier */
 .bottom-section {
     display: flex;
-    gap: 15px;
+    gap: 10px;
     align-items: flex-start;
+    margin-top: 10px !important;
+    padding-top: 0px !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
 }
 
 /* Tableau calendrier */
 .calendar-container {
     overflow-x: auto;
+    border-top: none;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
 }
 
 .calendar-table {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
-    font-size: 10px;
+    font-size: 14px;
+    border-top: none;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    position: relative;
+    top: 0px;
 }
 
 .calendar-table th,
@@ -181,7 +237,7 @@ header {
 .days-header th {
     background: #f0f0f0;
     font-weight: bold;
-    font-size: 9px;
+    font-size: 13px;
     color: #000;
 }
 
@@ -317,6 +373,102 @@ header {
     height: fit-content;
 }
 
+.holidays-button-box {
+    border: 2px solid #000;
+    padding: 10px;
+    background: white;
+    text-align: center;
+}
+
+.btn-holidays {
+    background: #fffacd;
+    color: #000;
+    border: 2px solid #000;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.btn-holidays:hover {
+    background: #fff8b8;
+    transform: scale(1.05);
+}
+
+.holidays-container {
+    border: 2px solid #000;
+    background: white;
+    width: 100%;
+}
+
+.holidays-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    padding: 15px;
+}
+
+.holidays-column {
+    border-right: 1px solid #ccc;
+}
+
+.holidays-column:last-child {
+    border-right: none;
+}
+
+.modal-holidays {
+    max-width: 900px;
+}
+
+.modal-holidays h2 {
+    text-align: center;
+    color: #000;
+    margin-bottom: 20px;
+    font-size: 40px;
+}
+
+.holidays-table-single {
+    width: 100%;
+    font-size: 32px;
+}
+
+.holidays-table-single th {
+    padding: 12px 10px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.holidays-table-single td {
+    padding: 10px 8px;
+    font-size: 28px;
+    line-height: 1.6;
+}
+
+.holidays-table-single th:nth-child(1) {
+    width: 90px;
+}
+
+.holidays-table-single th:nth-child(2) {
+    width: 70px;
+}
+
+.holidays-table-single th:nth-child(3) {
+    width: auto;
+    text-align: left;
+    padding-left: 15px;
+}
+
+.holidays-table-single td:nth-child(3) {
+    text-align: left;
+    padding-left: 15px;
+}
+
+.modal-holidays {
+    max-width: 900px;
+}
+
 .holidays-box h3 {
     background: #90ee90;
     color: #000;
@@ -331,7 +483,8 @@ header {
 .holidays-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 10px;
+    font-size: 9px;
+    table-layout: fixed;
 }
 
 .holidays-table thead {
@@ -339,19 +492,35 @@ header {
 }
 
 .holidays-table th {
-    padding: 6px 4px;
+    padding: 3px 2px;
     border: 1px solid #ccc;
     font-weight: bold;
-    font-size: 9px;
-    text-align: left;
+    font-size: 8px;
+    text-align: center;
+    vertical-align: middle;
     color: #000;
 }
 
+.holidays-table th:nth-child(1) {
+    width: 35px;
+}
+
+.holidays-table th:nth-child(2) {
+    width: 30px;
+}
+
+.holidays-table th:nth-child(3) {
+    width: auto;
+}
+
 .holidays-table td {
-    padding: 5px 4px;
+    padding: 2px 3px;
     border: 1px solid #ccc;
-    font-size: 9px;
+    font-size: 8px;
     color: #000;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 1.2;
 }
 
 .holidays-table tbody tr:nth-child(odd) {
@@ -367,32 +536,26 @@ header {
     white-space: nowrap;
     width: 50px;
     text-align: center;
+    vertical-align: middle;
     color: #000;
 }
 
 /* Couleurs des statuts */
 .colors-box {
-    border: 2px solid #000;
+    border: none;
     background: white;
     margin-top: 15px;
     height: fit-content;
 }
 
 .colors-box h3 {
-    background: #ffd700;
-    color: #000;
-    padding: 8px;
-    margin: 0;
-    text-align: center;
-    font-size: 12px;
-    font-weight: bold;
-    border-bottom: 2px solid #000;
+    display: none;
 }
 
 .colors-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 10px;
+    font-size: 11px;
 }
 
 .colors-table thead {
@@ -400,18 +563,18 @@ header {
 }
 
 .colors-table th {
-    padding: 6px 4px;
+    padding: 5px 3px;
     border: 1px solid #ccc;
     font-weight: bold;
-    font-size: 9px;
+    font-size: 10px;
     text-align: left;
     color: #000;
 }
 
 .colors-table td {
-    padding: 5px 4px;
+    padding: 4px;
     border: 1px solid #ccc;
-    font-size: 9px;
+    font-size: 10px;
     color: #000;
 }
 
@@ -438,6 +601,31 @@ header {
     padding: 2px;
 }
 
+.custom-code-input {
+    width: 50px;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 11px;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.custom-label-input {
+    width: 100%;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 11px;
+}
+
+.custom-label-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
 /* Statistiques */
 .statistics-container {
     display: flex;
@@ -445,13 +633,79 @@ header {
     flex-wrap: wrap;
     justify-content: flex-start;
     flex: 1;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
 }
 
 .stat-box {
-    border: 2px solid #000;
+    border: none;
     padding: 8px;
     width: 180px;
     flex-shrink: 0;
+}
+
+.unified-stats-box {
+    width: 360px;
+    padding: 0;
+    flex-shrink: 0;
+    border: none;
+}
+
+.unified-stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.unified-stats-table th {
+    background: #f0f0f0;
+    color: #000;
+    text-align: center;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 6px;
+    border: 1px solid #000;
+}
+
+.unified-stats-table th:nth-child(1) {
+    background: #e6b3ff;
+    width: 180px;
+}
+
+.unified-stats-table th:nth-child(2) {
+    background: #ff6b6b;
+    color: white;
+    width: 90px;
+}
+
+.unified-stats-table th:nth-child(3) {
+    background: #90ee90;
+    width: 90px;
+}
+
+.unified-stats-table td {
+    border: 1px solid #000;
+    padding: 8px;
+    vertical-align: top;
+}
+
+.unified-stats-table td:nth-child(1) {
+    width: 180px;
+}
+
+.unified-stats-table td:nth-child(2) {
+    width: 90px;
+}
+
+.unified-stats-table td:nth-child(3) {
+    width: 90px;
+}
+
+.pris-box,
+.restant-box {
+    width: 90px;
 }
 
 .stat-box h3 {
@@ -482,7 +736,9 @@ header {
     justify-content: space-between;
     padding: 2px 4px;
     border-bottom: 1px solid #ccc;
-    font-size: 10px;
+    font-size: 12px;
+    min-height: 28px;
+    align-items: center;
 }
 
 .stat-row:last-child {
@@ -537,14 +793,18 @@ header {
 
 /* Légende */
 .legend-box {
-    border: 2px solid #000;
-    padding: 10px;
+    border: none;
+    padding: 9px;
+    width: 180px;
+    max-width: 180px;
+    margin-right: auto;
+    order: -1;
 }
 
 .legend-box h3 {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 7px;
 }
 
 .legend-box h4 {
@@ -589,7 +849,7 @@ header {
 }
 
 .generation-rq-box {
-    border: 2px solid #000;
+    border: none;
     padding: 10px;
 }
 
@@ -790,7 +1050,6 @@ header {
 
 header {
     margin-bottom: 30px;
-    border-bottom: 3px solid #667eea;
     padding-bottom: 20px;
 }
 
@@ -859,21 +1118,21 @@ header h1 {
 }
 
 .btn-primary {
-    background: #667eea;
-    color: white;
-}
-
-.btn-primary:hover {
-    background: #5568d3;
-}
-
-.btn-secondary {
     background: #48bb78;
     color: white;
 }
 
-.btn-secondary:hover {
+.btn-primary:hover {
     background: #38a169;
+}
+
+.btn-secondary {
+    background: #667eea;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #5568d3;
 }
 
 .btn-danger {

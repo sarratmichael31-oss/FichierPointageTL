@@ -2,7 +2,6 @@
 class CalendrierPointage {
     constructor() {
         this.year = 2025;
-        this.data = this.loadFromStorage();
         this.currentEditCell = null;
         
         this.monthNames = [
@@ -58,19 +57,40 @@ class CalendrierPointage {
         this.defaultColors = {
             'WE': '#e6b3ff',
             'F': '#90ee90',
-            'C': '#ffcccc',
-            'RP': '#ffd700',
-            'RQ': '#87ceeb',
-            'VT': '#ffb366',
-            'CET': '#d8bfd8',
-            'MA': '#ffa07a',
-            'Fo': '#98fb98',
-            'G1': '#ffccff',
-            'G2': '#cc99ff',
-            'G3': '#9966ff'
+            'C': '#ffc828',
+            'RP': '#ffc828',
+            'RQ': '#ffc828',
+            'VT': '#ffc828',
+            'CET': '#ffc828',
+            'MA': '#ff7a7a',
+            'Fo': '#64c8ff',
+            'G1': '#ff7a7a',
+            'G4': '#ff7a7a',
+            'G8': '#ff7a7a',
+            'AY': '#ffc828',
+            'X1': '#cccccc',
+            'X2': '#cccccc',
+            'X3': '#cccccc'
+        };
+
+        // Charger les codes et labels personnalisés depuis le localStorage AVANT de les initialiser
+        const savedCodes = localStorage.getItem('customCodes');
+        const savedLabels = localStorage.getItem('customLabels');
+        
+        this.customCodes = savedCodes ? JSON.parse(savedCodes) : {
+            'X1': 'X1',
+            'X2': 'X2',
+            'X3': 'X3'
+        };
+
+        this.customLabels = savedLabels ? JSON.parse(savedLabels) : {
+            'X1': 'Statut 1',
+            'X2': 'Statut 2',
+            'X3': 'Statut 3'
         };
         
         this.statusColors = this.loadColors();
+        this.data = this.loadFromStorage();
         
         this.initializeApp();
     }
@@ -144,11 +164,75 @@ class CalendrierPointage {
             this.saveToStorage();
         });
         
+        // Gérer les codes et labels personnalisés
+        ['X1', 'X2', 'X3'].forEach(code => {
+            const codeInput = document.getElementById(`code${code}`);
+            const labelInput = document.getElementById(`label${code}`);
+            
+            if (codeInput) {
+                codeInput.addEventListener('input', () => {
+                    const newCode = codeInput.value.trim().toUpperCase();
+                    codeInput.value = newCode; // Forcer les majuscules en temps réel
+                });
+                
+                codeInput.addEventListener('change', () => {
+                    const newCode = codeInput.value.trim().toUpperCase();
+                    
+                    if (newCode) {
+                        // Mettre à jour le code personnalisé
+                        this.customCodes[code] = newCode;
+                        codeInput.value = newCode; // Forcer les majuscules dans l'input
+                        this.updateCustomStatuses();
+                        this.saveToStorage();
+                    }
+                });
+            }
+            
+            if (labelInput) {
+                labelInput.addEventListener('change', () => {
+                    this.customLabels[code] = labelInput.value;
+                    this.updateCustomStatuses();
+                    this.saveToStorage();
+                });
+            }
+        });
+        
         // Générer le calendrier et afficher les jours fériés
         this.generateCalendar();
         this.updateStatistics();
         this.displayHolidays();
         this.displayColorPickers();
+        this.setupHolidaysModal();
+        this.setupRqToggle();
+    }
+
+    // Configurer le bouton pour afficher/cacher l'interface RQ
+    setupRqToggle() {
+        const btn = document.getElementById('toggleRqBtn');
+        const rqBox = document.getElementById('generationRqBox');
+        
+        btn.addEventListener('click', () => {
+            if (rqBox.style.display === 'none') {
+                rqBox.style.display = 'block';
+            } else {
+                rqBox.style.display = 'none';
+            }
+        });
+    }
+
+    // Configurer le modal des jours fériés
+    setupHolidaysModal() {
+        const modal = document.getElementById('holidaysModal');
+        const btn = document.getElementById('showHolidaysBtn');
+        const closeBtn = document.getElementById('closeHolidaysModal');
+        
+        btn.addEventListener('click', () => {
+            modal.style.display = 'block';
+        });
+        
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
     }
 
     // Configurer le modal
@@ -160,10 +244,6 @@ class CalendrierPointage {
 
         closeBtn.addEventListener('click', () => this.closeModal());
         cancelBtn.addEventListener('click', () => this.closeModal());
-        
-        window.addEventListener('click', (e) => {
-            if (e.target === modal) this.closeModal();
-        });
 
         form.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -308,7 +388,9 @@ class CalendrierPointage {
                     const weekNum = this.getWeekNumber(date);
                     const weekClass = weekNum % 2 === 0 ? 'week-even' : 'week-odd';
                     
-                    dayCell.textContent = status;
+                    // Afficher le code personnalisé si c'est un statut personnalisable
+                    const displayStatus = this.getDisplayCode(status);
+                    dayCell.textContent = displayStatus;
                     dayCell.className = `day-cell status-${status} ${weekClass}`;
                     dayCell.dataset.date = dateKey;
                     
@@ -371,24 +453,31 @@ class CalendrierPointage {
     
     // Afficher les jours fériés dans le tableau latéral
     displayHolidays() {
-        const tbody = document.getElementById('holidaysBody');
+        const tbody1 = document.getElementById('holidaysBody1');
         const yearSpan = document.getElementById('holidaysYear');
+        const yearBtnSpan = document.getElementById('holidaysYearBtn');
         
         yearSpan.textContent = this.year;
-        tbody.innerHTML = '';
+        if (yearBtnSpan) yearBtnSpan.textContent = this.year;
+        tbody1.innerHTML = '';
         
         const yearHolidays = this.holidays[this.year] || [];
+        const dayNames = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
         
-        yearHolidays.forEach(holiday => {
+        yearHolidays.forEach((holiday) => {
             const row = document.createElement('tr');
             const date = new Date(holiday.date + 'T00:00:00');
             const dateStr = date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' });
+            const dayName = dayNames[date.getDay()];
             
             row.innerHTML = `
-                <td>${dateStr}</td>
-                <td>${holiday.name}</td>
+                <td style="padding: 8px 7px; border: 1px solid #ccc; font-size: 20px; text-align: center; color: #000;">${dateStr}</td>
+                <td style="padding: 8px 7px; border: 1px solid #ccc; font-size: 20px; text-align: center; color: #000;">${dayName}</td>
+                <td style="padding: 8px 10px; border: 1px solid #ccc; font-size: 20px; text-align: left; color: #000;">${holiday.name}</td>
             `;
-            tbody.appendChild(row);
+            row.style.background = tbody1.children.length % 2 === 0 ? '#fafafa' : 'white';
+            
+            tbody1.appendChild(row);
         });
     }
 
@@ -397,14 +486,17 @@ class CalendrierPointage {
         const tbody = document.getElementById('colorsBody');
         tbody.innerHTML = '';
         
-        const statuses = ['WE', 'F', 'C', 'RP', 'RQ', 'VT', 'CET', 'MA', 'Fo', 'G1', 'G2', 'G3'];
+        const statuses = ['WE', 'F', 'C', 'RP', 'RQ', 'VT', 'CET', 'MA', 'Fo', 'G1', 'G4', 'G8', 'AY', 'X1', 'X2', 'X3'];
         
         statuses.forEach(status => {
             const row = document.createElement('tr');
-            const color = this.statusColors[status];
+            const color = this.statusColors[status] || '#cccccc'; // Couleur par défaut si undefined
+            
+            // Afficher le code personnalisé si c'est X1, X2 ou X3
+            const displayCode = this.customCodes[status] || status;
             
             row.innerHTML = `
-                <td>${status}</td>
+                <td>${displayCode}</td>
                 <td><input type="color" class="color-picker" data-status="${status}" value="${color}"></td>
             `;
             tbody.appendChild(row);
@@ -417,6 +509,38 @@ class CalendrierPointage {
                 this.generateCalendar();
             });
         });
+    }
+
+    // Mettre à jour les codes et labels personnalisés dans toute l'interface
+    updateCustomStatuses() {
+        const select = document.getElementById('editStatus');
+        
+        ['X1', 'X2', 'X3'].forEach(code => {
+            const displayCode = this.customCodes[code];
+            const displayLabel = this.customLabels[code];
+            
+            // Mettre à jour dans le modal d'édition
+            if (select) {
+                const option = select.querySelector(`option[value="${code}"]`);
+                if (option) {
+                    option.textContent = `${displayCode} (${displayLabel})`;
+                }
+            }
+        });
+        
+        // Mettre à jour le tableau des couleurs
+        this.displayColorPickers();
+        
+        // Régénérer le calendrier pour afficher les nouveaux codes
+        this.generateCalendar();
+    }
+
+    // Obtenir le code à afficher (personnalisé ou original)
+    getDisplayCode(status) {
+        if (this.customCodes[status]) {
+            return this.customCodes[status];
+        }
+        return status;
     }
 
     // Ouvrir le modal d'édition
@@ -446,6 +570,57 @@ class CalendrierPointage {
     saveCell() {
         const status = document.getElementById('editStatus').value;
         const nbDays = parseInt(document.getElementById('nbDays').value) || 1;
+        
+        // Vérifier si le statut nécessite une vérification de solde
+        const statutsAvecSolde = ['C', 'RP', 'RQ', 'VT', 'CET'];
+        
+        if (status && statutsAvecSolde.includes(status)) {
+            // Récupérer les types de solde configurés
+            const soldeTypes = [];
+            const soldeVals = [];
+            for (let i = 1; i <= 5; i++) {
+                const type = document.getElementById(`soldeType${i}`).value;
+                const val = parseInt(document.getElementById(`soldeVal${i}`).value) || 0;
+                if (type) {
+                    soldeTypes.push(type);
+                    soldeVals.push(val);
+                }
+            }
+            
+            // Trouver le solde pour ce statut
+            const index = soldeTypes.indexOf(status);
+            if (index !== -1) {
+                const soldeDisponible = soldeVals[index];
+                
+                // Compter combien sont déjà pris
+                let dejaPris = 0;
+                for (let month = 0; month < 12; month++) {
+                    const days = this.daysInMonth[month];
+                    for (let day = 1; day <= days; day++) {
+                        const dateKey = `${this.year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                        const currentStatus = this.data[dateKey];
+                        if (currentStatus === status) {
+                            dejaPris++;
+                        }
+                    }
+                }
+                
+                // Vérifier si l'ajout dépasserait le solde
+                if (dejaPris + nbDays > soldeDisponible) {
+                    alert(`⚠️ ATTENTION : Vous dépassez votre solde !\n\n` +
+                          `Statut : ${status}\n` +
+                          `Soldé : ${soldeDisponible} jour(s)\n` +
+                          `Déjà pris : ${dejaPris} jour(s)\n` +
+                          `Vous essayez d'ajouter : ${nbDays} jour(s)\n` +
+                          `Restant après cette action : ${soldeDisponible - dejaPris - nbDays} jour(s)\n\n` +
+                          `Voulez-vous vraiment continuer ?`);
+                    
+                    if (!confirm("Confirmez-vous cette saisie malgré le dépassement ?")) {
+                        return; // Annuler la saisie
+                    }
+                }
+            }
+        }
         
         if (this.currentEditCell) {
             const startDate = new Date(this.currentEditCell + 'T00:00:00');
@@ -765,6 +940,11 @@ class CalendrierPointage {
         localStorage.setItem('agentName', document.getElementById('agentName').value);
         localStorage.setItem('rqDateReference', document.getElementById('rqDateReference').value);
         localStorage.setItem('rqCompteurReference', document.getElementById('rqCompteurReference').value);
+        localStorage.setItem('customCodes', JSON.stringify(this.customCodes));
+        localStorage.setItem('customLabels', JSON.stringify(this.customLabels));
+        
+        console.log('Sauvegarde - customCodes:', this.customCodes);
+        console.log('Sauvegarde - customLabels:', this.customLabels);
         
         // Sauvegarder les types et valeurs SOLDÉ
         for (let i = 1; i <= 5; i++) {
@@ -782,7 +962,14 @@ class CalendrierPointage {
     loadColors() {
         const savedColors = localStorage.getItem('statusColors');
         if (savedColors) {
-            return JSON.parse(savedColors);
+            const colors = JSON.parse(savedColors);
+            // S'assurer que X1, X2, X3 ont toujours une couleur
+            ['X1', 'X2', 'X3'].forEach(code => {
+                if (!colors[code]) {
+                    colors[code] = this.defaultColors[code] || '#cccccc';
+                }
+            });
+            return colors;
         }
         return { ...this.defaultColors };
     }
@@ -800,6 +987,22 @@ class CalendrierPointage {
                 document.getElementById('agentName').value = savedName;
             }, 100);
         }
+        
+        // Charger les codes et labels personnalisés dans les inputs
+        setTimeout(() => {
+            ['X1', 'X2', 'X3'].forEach(code => {
+                const codeInput = document.getElementById(`code${code}`);
+                const labelInput = document.getElementById(`label${code}`);
+                
+                if (codeInput && this.customCodes[code]) {
+                    codeInput.value = this.customCodes[code];
+                }
+                if (labelInput && this.customLabels[code]) {
+                    labelInput.value = this.customLabels[code];
+                }
+            });
+            this.updateCustomStatuses();
+        }, 100);
         
         // Charger la date de référence RRQ
         if (savedRqDate) {
